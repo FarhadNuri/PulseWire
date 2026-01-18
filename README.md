@@ -4,7 +4,7 @@ A modern, minimalist news portal that fetches real-time news from NewsAPI.
 
 ## Live Demo
 
-Open `index.html` with a local server (required for API to work).
+Open `https://pulsewirenews.netlify.app/#`
 
 ## Features
 
