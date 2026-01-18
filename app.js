@@ -1,7 +1,8 @@
 let fetchData = [];
 let originalData = [];
 
-const API_KEY = "d74dddcdcc8c4efbb769192650591ec4";
+// GNews API - Works on deployed sites! Get free key at: https://gnews.io
+const API_KEY = "359d14c1d96797265357f7b1fb3f727f";
 
 const categories = [
   { id: "general", name: "General" },
@@ -24,16 +25,16 @@ const fetchCategories = () => {
 
 const fetchCategoryNews = (categoryId, categoryName) => {
   document.getElementById("all-news").innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
-  const url = `https://newsapi.org/v2/top-headlines?country=us&category=${categoryId}&apiKey=${API_KEY}`;
+  const url = `https://gnews.io/api/v4/top-headlines?category=${categoryId}&lang=en&country=us&max=10&apikey=${API_KEY}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      if (data.status === "ok") {
+      if (data.articles) {
         fetchData = data.articles;
         originalData = [...data.articles];
         showAllNews(data.articles, categoryName);
       } else {
-        showError(data.message || "Failed to fetch news");
+        showError(data.errors?.[0] || "Failed to fetch news");
       }
     })
     .catch((err) => {
@@ -48,7 +49,7 @@ const showError = (message) => {
       <i class="fas fa-exclamation-triangle"></i>
       <h4>Oops! Something went wrong</h4>
       <p>${message}</p>
-      <p class="mt-3"><small>Get your free API key at: <a href="https://newsapi.org" target="_blank">newsapi.org</a></small></p>
+      <p class="mt-3"><small>Get your free API key at: <a href="https://gnews.io" target="_blank">gnews.io</a></small></p>
     </div>`;
 };
 
@@ -62,7 +63,7 @@ const showAllNews = (data, categoryName) => {
   data.forEach((news) => {
     const title = news.title || "No title";
     const description = news.description || news.content || "No description available";
-    const image = news.urlToImage || "https://via.placeholder.com/300x200?text=News";
+    const image = news.image || "https://via.placeholder.com/300x200?text=News";
     const publishedAt = news.publishedAt;
     const url = news.url;
     const source = news.source?.name || "Unknown Source";
