@@ -1,9 +1,6 @@
 let fetchData = [];
 let originalData = [];
 
-// GNews API - Works on deployed sites! Get free key at: https://gnews.io
-const API_KEY = "359d14c1d96797265357f7b1fb3f727f";
-
 const categories = [
   { id: "general", name: "General" },
   { id: "business", name: "Business" },
@@ -25,7 +22,7 @@ const fetchCategories = () => {
 
 const fetchCategoryNews = (categoryId, categoryName) => {
   document.getElementById("all-news").innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
-  const url = `https://gnews.io/api/v4/top-headlines?category=${categoryId}&lang=en&country=us&max=10&apikey=${API_KEY}`;
+  const url = `/.netlify/functions/news?category=${categoryId}`;
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
